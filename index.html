@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="七年级上册数学例2：圆柱水桶倒水到长方体容器的互动讲解。" />
-  <title>例二｜水的体积互动课堂</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d1b2a'/%3E%3Cpath d='M14 38c10-8 18 8 28 0s12 0 12 0v12H14z' fill='%2339c0ba'/%3E%3Cpath d='M18 21h28v24H18z' fill='none' stroke='%23fff4d6' stroke-width='4'/%3E%3C/svg%3E" />
+  <meta name="description" content="七年级数学例2：圆柱水桶倒水到长方体容器的动画互动模型。" />
+  <title>例二｜倒水模型互动课堂</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23091a28'/%3E%3Cpath d='M12 38c9-7 17 7 26 0s14 0 14 0v13H12z' fill='%2339c0ba'/%3E%3Cpath d='M17 20h30v27H17z' fill='none' stroke='%23fff0bf' stroke-width='4'/%3E%3C/svg%3E" />
   <style>
     :root {
-      --ink: #edf4f6;
-      --muted: #9db0bb;
-      --bg: #08131f;
-      --panel: #102333;
-      --panel-2: #152c3f;
-      --line: rgba(197, 224, 231, .15);
+      --bg: #071520;
+      --bg-soft: #0c2030;
+      --card: #10293b;
+      --card-2: #14344a;
+      --ink: #edf7f6;
+      --muted: #9db4bd;
+      --line: rgba(204, 232, 235, .15);
       --aqua: #39c0ba;
-      --aqua-soft: #a2ece0;
+      --aqua-light: #a2ece0;
       --yellow: #f5c84c;
-      --orange: #ff8b5b;
-      --purple: #9f8df3;
-      --shadow: 0 22px 60px rgba(0,0,0,.24);
+      --orange: #ff8f62;
+      --purple: #a294f1;
+      --shadow: 0 22px 70px rgba(0,0,0,.28);
     }
 
     * { box-sizing: border-box; }
@@ -28,333 +29,452 @@
       margin: 0;
       min-width: 320px;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 78% 8%, rgba(57,192,186,.13), transparent 27rem),
-        radial-gradient(circle at 8% 96%, rgba(159,141,243,.09), transparent 30rem),
-        var(--bg);
+      background: radial-gradient(circle at 80% 0%, rgba(57,192,186,.16), transparent 30rem), radial-gradient(circle at 0% 100%, rgba(162,148,241,.1), transparent 30rem), var(--bg);
       font-family: Inter, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
       line-height: 1.55;
     }
+    button { font: inherit; cursor: pointer; }
+    button:disabled { cursor: wait; opacity: .55; }
+    .wrap { width: min(1440px, calc(100% - 40px)); margin: 0 auto; padding: 24px 0 42px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 21px; }
+    .brand { display: flex; gap: 13px; align-items: center; }
+    .mark { display: grid; place-items: center; width: 43px; height: 43px; border: 1px solid rgba(162,236,224,.36); border-radius: 14px; background: linear-gradient(145deg, #174456, #102a3d); color: var(--aqua-light); font-size: 21px; font-weight: 850; }
+    .eyebrow { color: var(--aqua-light); font-size: 12px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { margin-top: 1px; font-size: clamp(21px, 2.4vw, 30px); letter-spacing: -.04em; }
+    .teacher-mode { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 14px; }
+    .teacher-mode i { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 5px rgba(245,200,76,.12); }
 
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-    .shell { width: min(1420px, calc(100% - 40px)); margin: 0 auto; padding: 24px 0 36px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
-    .brand { display: flex; align-items: center; gap: 13px; }
-    .brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid rgba(162,236,224,.34); border-radius: 13px; background: linear-gradient(145deg, #173d4c, #0f2535); color: var(--aqua-soft); font-size: 21px; font-weight: 800; }
-    .eyebrow { color: var(--aqua-soft); font-size: 12px; letter-spacing: .14em; font-weight: 800; text-transform: uppercase; }
-    h1, h2, p { margin: 0; }
-    h1 { margin-top: 1px; font-size: clamp(20px, 2.2vw, 28px); letter-spacing: -.035em; }
-    .teacher-tag { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 14px; }
-    .teacher-dot { width: 8px; height: 8px; border-radius: 99px; background: var(--yellow); box-shadow: 0 0 0 5px rgba(245,200,76,.12); }
+    .step-rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; margin-bottom: 16px; }
+    .step-rail button { min-height: 77px; padding: 12px 14px; color: var(--muted); text-align: left; border: 1px solid var(--line); border-radius: 15px; background: rgba(16,41,59,.78); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+    .step-rail button:hover { border-color: rgba(162,236,224,.45); transform: translateY(-1px); }
+    .step-rail button.active { color: var(--ink); border-color: rgba(57,192,186,.75); background: linear-gradient(135deg, rgba(24,76,87,.96), rgba(14,47,67,.98)); box-shadow: inset 3px 0 var(--aqua); }
+    .step-rail button.done { border-color: rgba(162,236,224,.31); }
+    .step-no { display: block; margin-bottom: 2px; color: var(--aqua-light); font-size: 11px; font-weight: 850; letter-spacing: .11em; }
+    .step-name { font-size: 14px; font-weight: 750; }
 
-    .progress { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
-    .progress button { min-height: 73px; padding: 13px 16px; text-align: left; color: var(--muted); border: 1px solid var(--line); border-radius: 15px; background: rgba(16,35,51,.8); transition: .2s ease; }
-    .progress button:hover { border-color: rgba(162,236,224,.38); transform: translateY(-1px); }
-    .progress button.active { color: var(--ink); border-color: rgba(57,192,186,.72); background: linear-gradient(135deg, rgba(22,68,79,.95), rgba(16,44,62,.95)); box-shadow: inset 3px 0 var(--aqua); }
-    .step-no { display: block; margin-bottom: 3px; color: var(--aqua-soft); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
-    .step-title { font-size: 15px; font-weight: 700; }
-
-    .workspace { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(390px, .7fr); gap: 16px; align-items: stretch; }
-    .card { border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(145deg, rgba(18,42,58,.95), rgba(11,27,42,.96)); box-shadow: var(--shadow); }
-    .visual-card { min-height: 650px; padding: 22px; display: flex; flex-direction: column; }
-    .card-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
-    .card-head h2 { font-size: 19px; letter-spacing: -.02em; }
-    .card-head p { margin-top: 5px; color: var(--muted); font-size: 14px; }
-    .unit-chip { flex: 0 0 auto; padding: 5px 10px; border-radius: 99px; color: var(--aqua-soft); background: rgba(57,192,186,.1); border: 1px solid rgba(57,192,186,.23); font-size: 12px; font-weight: 700; }
-    .stage { position: relative; flex: 1; display: grid; place-items: center; min-height: 440px; margin: 10px 0 8px; overflow: hidden; border: 1px solid rgba(197,224,231,.08); border-radius: 16px; background: linear-gradient(180deg, rgba(8,19,31,.12), rgba(8,19,31,.42)); }
-    .stage::before { content: ""; position: absolute; inset: 0; opacity: .26; background-image: linear-gradient(rgba(162,236,224,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(162,236,224,.08) 1px, transparent 1px); background-size: 36px 36px; mask-image: linear-gradient(to bottom, black, transparent 92%); }
-    #diagram { position: relative; width: min(100%, 890px); height: auto; z-index: 1; }
-    .stage-note { position: absolute; left: 18px; bottom: 14px; color: rgba(237,244,246,.55); font-size: 12px; z-index: 2; }
-    .visual-foot { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: end; }
-    .legend { display: flex; flex-wrap: wrap; gap: 10px 17px; color: var(--muted); font-size: 12px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(405px, .8fr); gap: 16px; align-items: stretch; }
+    .panel { border: 1px solid var(--line); border-radius: 21px; background: linear-gradient(145deg, rgba(18,48,68,.96), rgba(10,28,43,.98)); box-shadow: var(--shadow); }
+    .model-panel { min-height: 680px; padding: 21px; display: flex; flex-direction: column; }
+    .panel-head { display: flex; justify-content: space-between; gap: 15px; align-items: flex-start; }
+    .panel-head h2 { font-size: 20px; letter-spacing: -.025em; }
+    .panel-head p { margin-top: 5px; color: var(--muted); font-size: 14px; }
+    .unit { flex: 0 0 auto; padding: 6px 10px; border: 1px solid rgba(57,192,186,.26); border-radius: 99px; color: var(--aqua-light); background: rgba(57,192,186,.1); font-size: 12px; font-weight: 750; }
+    .model-stage { position: relative; flex: 1; display: grid; place-items: center; min-height: 460px; margin: 13px 0 10px; overflow: hidden; border: 1px solid rgba(204,232,235,.09); border-radius: 16px; background: linear-gradient(180deg, rgba(7,21,32,.08), rgba(7,21,32,.48)); }
+    .model-stage::before { content: ""; position: absolute; inset: 0; opacity: .28; background-image: linear-gradient(rgba(162,236,224,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(162,236,224,.09) 1px, transparent 1px); background-size: 36px 36px; mask-image: linear-gradient(to bottom, #000, transparent 90%); }
+    #scene { position: relative; z-index: 1; width: min(100%, 900px); height: auto; }
+    .scene-label { position: absolute; left: 17px; bottom: 14px; z-index: 2; color: rgba(237,247,246,.55); font-size: 12px; }
+    .model-caption { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 9px 17px; color: var(--muted); font-size: 12px; }
     .legend span { display: inline-flex; align-items: center; gap: 7px; }
-    .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
-    .legend .water { background: var(--aqua); } .legend .cup { background: var(--yellow); } .legend .container { background: var(--purple); }
-    .mini-stat { padding: 10px 14px; border-radius: 13px; border: 1px solid rgba(245,200,76,.24); background: rgba(245,200,76,.08); text-align: right; }
-    .mini-stat-label { display: block; color: var(--muted); font-size: 11px; }
-    .mini-stat strong { color: var(--yellow); font-size: 18px; }
+    .legend i { width: 10px; height: 10px; border-radius: 3px; }
+    .legend .water { background: var(--aqua); } .legend .cup { background: var(--yellow); } .legend .box { background: var(--purple); }
+    .scene-status { padding: 9px 12px; border: 1px solid rgba(245,200,76,.24); border-radius: 12px; color: var(--yellow); background: rgba(245,200,76,.08); font-size: 13px; font-weight: 800; white-space: nowrap; }
 
-    .control-card { display: flex; flex-direction: column; gap: 16px; padding: 22px; }
-    .control-card h2 { font-size: 18px; }
-    .control-card > p { color: var(--muted); font-size: 14px; }
-    .control-section { padding-top: 16px; border-top: 1px solid var(--line); }
-    .control-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--muted); font-size: 13px; font-weight: 700; }
-    .value-badge { color: var(--yellow); font-size: 15px; }
-    input[type="range"] { width: 100%; accent-color: var(--yellow); }
-    .range-ends { display: flex; justify-content: space-between; margin-top: 4px; color: rgba(157,176,187,.7); font-size: 11px; }
-    .button-row { display: flex; gap: 9px; flex-wrap: wrap; }
-    .btn { border: 0; border-radius: 11px; padding: 10px 13px; color: var(--ink); background: #23445a; font-weight: 750; transition: .2s ease; }
-    .btn:hover { filter: brightness(1.14); transform: translateY(-1px); }
-    .btn.primary { color: #07161e; background: var(--aqua); }
-    .btn.accent { color: #251a06; background: var(--yellow); }
-    .btn.ghost { color: var(--muted); border: 1px solid var(--line); background: transparent; }
-    .question { padding: 14px; border-radius: 14px; color: #d5e5e6; background: rgba(57,192,186,.09); border: 1px solid rgba(57,192,186,.16); }
-    .question strong { display: block; margin-bottom: 4px; color: var(--aqua-soft); font-size: 13px; }
-    .question p { font-size: 14px; }
-    .formula { display: grid; gap: 8px; }
-    .formula-line { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; color: var(--muted); font-size: 14px; }
-    .formula-line code { color: #e6f2ed; font-family: "Cambria Math", "Times New Roman", serif; font-size: 16px; }
-    .formula-line .formula-result { color: var(--aqua-soft); font-weight: 800; white-space: nowrap; }
-    .formula-line.final { margin-top: 4px; padding-top: 11px; border-top: 1px dashed rgba(197,224,231,.2); }
-    .formula-line.final code, .formula-line.final .formula-result { color: var(--yellow); font-size: 19px; }
-    .answer { display: none; padding: 14px; border-radius: 14px; background: linear-gradient(135deg, rgba(245,200,76,.15), rgba(255,139,91,.09)); border: 1px solid rgba(245,200,76,.35); }
-    .answer.visible { display: block; animation: pop .25s ease-out; }
+    .lesson-panel { display: flex; flex-direction: column; gap: 15px; padding: 21px; }
+    .lesson-kicker { color: var(--aqua-light); font-size: 12px; font-weight: 850; letter-spacing: .13em; }
+    .lesson-panel h2 { margin-top: 1px; font-size: 20px; letter-spacing: -.025em; }
+    .lesson-intro { margin-top: 5px; color: var(--muted); font-size: 14px; }
+    .prompt { padding: 14px; border: 1px solid rgba(57,192,186,.22); border-radius: 14px; background: rgba(57,192,186,.09); }
+    .prompt-label { display: block; margin-bottom: 3px; color: var(--aqua-light); font-size: 12px; font-weight: 850; }
+    .prompt p { color: #dcebea; font-size: 14px; }
+    .calc-card { padding: 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(6,19,30,.3); }
+    .calc-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+    .calc-card h3 { font-size: 15px; }
+    .pi-badge { padding: 4px 8px; border-radius: 7px; color: #271d05; background: var(--yellow); font-size: 11px; font-weight: 850; }
+    .calc-list { display: grid; gap: 8px; }
+    .calc-row { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px; padding: 9px 8px; border-radius: 10px; opacity: .28; filter: saturate(.4); transition: opacity .35s ease, filter .35s ease, background .35s ease, border-color .35s ease; border: 1px solid transparent; }
+    .calc-row.visible { opacity: 1; filter: none; background: rgba(57,192,186,.07); border-color: rgba(57,192,186,.16); }
+    .calc-row.focus { border-color: rgba(245,200,76,.42); background: rgba(245,200,76,.08); }
+    .calc-num { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 7px; color: var(--muted); background: rgba(255,255,255,.08); font-size: 12px; font-weight: 850; }
+    .calc-row.visible .calc-num { color: #0b1c24; background: var(--aqua); }
+    .calc-copy { min-width: 0; }
+    .calc-copy small { display: block; color: var(--muted); font-size: 12px; }
+    .math { display: block; margin-top: 2px; color: #eff9f6; font-family: "Cambria Math", "Times New Roman", serif; font-size: 16px; font-weight: 700; line-height: 1.42; word-break: break-word; }
+    .calc-row.focus .math { color: var(--yellow); }
+    .calc-row .calc-note { display: block; color: var(--muted); font-size: 12px; }
+    .answer { display: none; padding: 14px; border: 1px solid rgba(245,200,76,.42); border-radius: 14px; background: linear-gradient(135deg, rgba(245,200,76,.14), rgba(255,143,98,.09)); animation: answer-in .35s ease-out; }
+    .answer.visible { display: block; }
     .answer small { display: block; color: var(--muted); font-size: 12px; }
-    .answer strong { display: block; margin-top: 2px; color: var(--yellow); font-size: 25px; letter-spacing: -.03em; }
-    @keyframes pop { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    .teacher-tip { margin-top: auto; padding: 12px 13px; border-radius: 12px; color: #c5d4dd; background: rgba(159,141,243,.08); border-left: 3px solid var(--purple); font-size: 13px; }
-    .teacher-tip b { color: #c8bfff; }
+    .answer strong { display: block; margin-top: 2px; color: var(--yellow); font-size: 23px; letter-spacing: -.03em; }
+    @keyframes answer-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .controls { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line); }
+    .btn { min-height: 42px; padding: 9px 13px; border: 0; border-radius: 11px; color: var(--ink); background: #254c64; font-weight: 800; transition: filter .2s ease, transform .2s ease; }
+    .btn:hover:not(:disabled) { filter: brightness(1.13); transform: translateY(-1px); }
+    .btn.primary { color: #071a20; background: var(--aqua); }
+    .btn.accent { color: #291e06; background: var(--yellow); }
+    .btn.ghost { color: var(--muted); border: 1px solid var(--line); background: transparent; }
+    .progress-text { min-width: 0; color: var(--muted); text-align: center; font-size: 12px; }
+    .teacher-tip { margin-top: auto; padding: 11px 13px; border-left: 3px solid var(--purple); border-radius: 0 11px 11px 0; color: #cad6e3; background: rgba(162,148,241,.08); font-size: 13px; }
+    .teacher-tip b { color: #cfc7ff; }
 
-    .below { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-    .info-card { padding: 19px 21px; }
-    .info-card h2 { margin-bottom: 9px; font-size: 16px; }
-    .info-card p { color: var(--muted); font-size: 14px; }
-    .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: #d7e4e8; font-size: 14px; }
-    .flow b { padding: 6px 9px; border-radius: 8px; color: var(--aqua-soft); background: rgba(57,192,186,.1); }
+    .flow-card { margin-top: 16px; padding: 18px 20px; }
+    .flow-card h2 { margin-bottom: 10px; font-size: 16px; }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: #d9e9e9; font-size: 14px; }
+    .flow b { padding: 6px 9px; border-radius: 8px; color: var(--aqua-light); background: rgba(57,192,186,.1); }
     .flow i { color: var(--muted); font-style: normal; }
-    .shortcuts { display: flex; flex-wrap: wrap; gap: 8px; }
-    .shortcut { padding: 7px 9px; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); font-size: 12px; }
-    .shortcut kbd { padding: 1px 5px; border-radius: 4px; color: var(--ink); background: rgba(255,255,255,.1); }
 
-    @media (max-width: 980px) {
-      .workspace { grid-template-columns: 1fr; }
-      .visual-card { min-height: 560px; }
-      .control-card { display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
-      .control-card h2, .control-card > p, .teacher-tip { grid-column: 1 / -1; }
-      .control-section { border-top: 0; padding-top: 0; }
+    /* SVG 课堂模型 */
+    .tank-body { fill: #1a3b51; stroke: #78b4c3; stroke-width: 3; }
+    .tank-rim { fill: #21465d; stroke: #a2ece0; stroke-width: 3; }
+    .water-body { fill: url(#water); transition: d .8s ease; }
+    .water-top { fill: #a2ece0; opacity: .9; transition: cy .8s ease; }
+    .cup-body { fill: #50469b; stroke: #cfc7ff; stroke-width: 2.5; }
+    .cup-rim { fill: #7668ca; stroke: #cfc7ff; stroke-width: 2.5; }
+    .cup-water { fill: #f5c84c; opacity: 0; transition: opacity .5s ease; }
+    .cup-water-top { fill: #ffe59b; opacity: 0; transition: opacity .5s ease; }
+    .box-side { fill: #4d4591; stroke: #cfc7ff; stroke-width: 3; }
+    .box-front { fill: #2a2857; stroke: #cfc7ff; stroke-width: 3; }
+    .box-top { fill: #403a80; stroke: #cfc7ff; stroke-width: 3; }
+    .box-water-front, .box-water-top { fill: url(#boxWater); opacity: 0; transition: opacity .7s ease, d .8s ease; }
+    .svg-text { fill: #9db4bd; font-size: 15px; font-weight: 750; }
+    .svg-water-text { fill: #a2ece0; font-size: 16px; font-weight: 850; }
+    .svg-yellow-text { fill: #f5c84c; font-size: 15px; font-weight: 850; }
+    .svg-purple-text { fill: #cfc7ff; font-size: 15px; font-weight: 850; }
+    .stream { fill: none; stroke: #a2ece0; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 12 9; opacity: 0; }
+    .stream.cup-stream { stroke: #f5c84c; }
+    .drop { fill: #a2ece0; opacity: 0; }
+    .drop.cup-drop { fill: #f5c84c; }
+    .scene.cup-pouring .cup-stream, .scene.box-pouring .box-stream { opacity: 1; animation: stream-dash .55s linear infinite; }
+    .scene.cup-pouring .cup-drop { opacity: 1; animation: drop-cup 1.05s ease-in infinite; }
+    .scene.box-pouring .box-drop { opacity: 1; animation: drop-box 1.05s ease-in infinite; }
+    @keyframes stream-dash { to { stroke-dashoffset: -42; } }
+    @keyframes drop-cup { 0% { transform: translate(0,0); opacity: 0; } 16% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(70px,100px); opacity: 0; } }
+    @keyframes drop-box { 0% { transform: translate(0,0); opacity: 0; } 16% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(245px,105px); opacity: 0; } }
+    .scene.cup-pouring .cup-water, .scene.cup-pouring .cup-water-top, .scene.box-pouring .box-water-front, .scene.box-pouring .box-water-top { animation: fill-pop .8s ease-out forwards; }
+    @keyframes fill-pop { from { opacity: .1; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+
+    @media (max-width: 1020px) {
+      .layout { grid-template-columns: 1fr; }
+      .model-panel { min-height: 585px; }
+      .lesson-panel { display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
+      .lesson-panel > :first-child, .lesson-panel > .teacher-tip { grid-column: 1 / -1; }
+      .controls { grid-column: 1 / -1; }
+      .answer { align-self: end; }
     }
-    @media (max-width: 640px) {
-      .shell { width: min(100% - 22px, 1420px); padding-top: 14px; }
+    @media (max-width: 690px) {
+      .wrap { width: min(100% - 22px, 1440px); padding-top: 14px; }
       .topbar { align-items: flex-start; }
-      .teacher-tag { font-size: 12px; }
-      .progress { grid-template-columns: repeat(2, 1fr); }
-      .progress button { min-height: 65px; padding: 10px 12px; }
-      .step-title { font-size: 13px; }
-      .visual-card, .control-card { padding: 16px; }
-      .visual-card { min-height: 480px; }
-      .stage { min-height: 300px; margin-top: 13px; }
-      .visual-foot { grid-template-columns: 1fr; }
-      .mini-stat { width: fit-content; text-align: left; }
-      .control-card { display: flex; }
-      .below { grid-template-columns: 1fr; }
-      .formula-line { align-items: center; }
-      .formula-line code { font-size: 14px; }
+      .teacher-mode { font-size: 12px; }
+      .step-rail { grid-template-columns: repeat(2, 1fr); }
+      .step-rail button { min-height: 65px; padding: 10px 12px; }
+      .step-name { font-size: 13px; }
+      .model-panel, .lesson-panel { padding: 16px; }
+      .model-panel { min-height: 485px; }
+      .model-stage { min-height: 315px; }
+      .panel-head { display: block; }
+      .unit { display: inline-block; margin-top: 10px; }
+      .model-caption { display: block; }
+      .scene-status { display: inline-block; margin-top: 10px; }
+      .lesson-panel { display: flex; }
+      .controls { grid-template-columns: 1fr 1fr; }
+      .controls .progress-text { grid-column: 1 / -1; grid-row: 1; order: -1; }
+      .controls .btn { width: 100%; }
+      .math { font-size: 14px; }
     }
   </style>
 </head>
 <body>
-  <main class="shell">
+  <main class="wrap">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">π</div>
+        <div class="mark">π</div>
         <div>
-          <div class="eyebrow">七年级上册 · 有理数运算</div>
-          <h1>例二｜水的体积互动课堂</h1>
+          <div class="eyebrow">七年级上册 · 例 2 · 体积守恒</div>
+          <h1>倒水模型互动课堂</h1>
         </div>
       </div>
-      <div class="teacher-tag"><span class="teacher-dot"></span>教师演示模式</div>
+      <div class="teacher-mode"><i></i>教师演示模式</div>
     </header>
 
-    <nav class="progress" aria-label="讲解步骤">
-      <button class="active" data-step="0"><span class="step-no">STEP 01</span><span class="step-title">先看水桶</span></button>
-      <button data-step="1"><span class="step-no">STEP 02</span><span class="step-title">倒出 2 个杯子</span></button>
-      <button data-step="2"><span class="step-no">STEP 03</span><span class="step-title">算剩余水量</span></button>
-      <button data-step="3"><span class="step-no">STEP 04</span><span class="step-title">进入长方体</span></button>
+    <nav class="step-rail" aria-label="例题讲解进度">
+      <button class="active" data-step="0"><span class="step-no">STEP 01</span><span class="step-name">认识一桶水</span></button>
+      <button data-step="1"><span class="step-no">STEP 02</span><span class="step-name">倒满 2 个杯子</span></button>
+      <button data-step="2"><span class="step-no">STEP 03</span><span class="step-name">求剩余水量</span></button>
+      <button data-step="3"><span class="step-no">STEP 04</span><span class="step-name">倒入长方体</span></button>
+      <button data-step="4"><span class="step-no">STEP 05</span><span class="step-name">求水的高度</span></button>
     </nav>
 
-    <section class="workspace">
-      <section class="card visual-card" aria-label="体积变化图示">
-        <div class="card-head">
+    <section class="layout">
+      <section class="panel model-panel" aria-label="倒水动画模型">
+        <div class="panel-head">
           <div>
-            <h2 id="stageTitle">① 一桶水有多少？</h2>
-            <p id="stageDescription">先把圆柱水桶看成一个整体，量出它的体积。</p>
+            <h2 id="sceneTitle">① 一桶水的体积</h2>
+            <p id="sceneDescription">先看清楚题目中的三个容器，再开始倒水。</p>
           </div>
-          <span class="unit-chip">单位：cm³ / cm</span>
+          <span class="unit">长度单位：cm</span>
         </div>
 
-        <div class="stage">
-          <svg id="diagram" viewBox="0 0 900 470" role="img" aria-label="水桶、杯子和长方体容器的示意图">
+        <div class="model-stage">
+          <svg id="scene" class="scene" viewBox="0 0 920 500" role="img" aria-label="圆柱水桶、两个圆柱形杯子和长方体容器的倒水示意图">
             <defs>
-              <linearGradient id="waterGradient" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#a2ece0"/><stop offset="1" stop-color="#39c0ba"/></linearGradient>
-              <linearGradient id="tankGradient" x1="0" x2="1"><stop offset="0" stop-color="#27445b"/><stop offset="1" stop-color="#183448"/></linearGradient>
-              <linearGradient id="purpleGradient" x1="0" x2="1"><stop offset="0" stop-color="#9f8df3"/><stop offset="1" stop-color="#6352bd"/></linearGradient>
-              <filter id="softShadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000" flood-opacity=".28"/></filter>
+              <linearGradient id="water" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#a2ece0"/><stop offset="1" stop-color="#39c0ba"/></linearGradient>
+              <linearGradient id="boxWater" x1="0" x2="1"><stop offset="0" stop-color="#a294f1"/><stop offset="1" stop-color="#5d4eb6"/></linearGradient>
+              <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000" flood-opacity=".26"/></filter>
             </defs>
-            <g opacity=".72">
-              <text x="105" y="61" fill="#9db0bb" font-size="15" font-weight="700">圆柱水桶</text>
-              <text x="401" y="61" fill="#9db0bb" font-size="15" font-weight="700">2 个圆柱形杯子</text>
-              <text x="671" y="61" fill="#9db0bb" font-size="15" font-weight="700">长方体容器</text>
+
+            <g>
+              <text x="188" y="51" text-anchor="middle" class="svg-text">圆柱形水桶</text>
+              <text x="455" y="51" text-anchor="middle" class="svg-text">2 个圆柱形杯子</text>
+              <text x="750" y="51" text-anchor="middle" class="svg-text">长方体容器</text>
             </g>
-            <g id="tankGroup" filter="url(#softShadow)">
-              <path d="M88 115 Q188 76 288 115 L288 357 Q188 398 88 357Z" fill="url(#tankGradient)" stroke="#6c9caf" stroke-width="3"/>
-              <ellipse cx="188" cy="115" rx="100" ry="39" fill="#1b3c51" stroke="#8cc7d2" stroke-width="3"/>
-              <path id="tankWater" d="M91 151 Q188 113 285 151 L285 353 Q188 390 91 353Z" fill="url(#waterGradient)" opacity=".95"/>
-              <ellipse id="tankWaterTop" cx="188" cy="151" rx="97" ry="36" fill="#a2ece0" opacity=".88"/>
-              <path d="M122 186 L122 331 M254 186 L254 331" stroke="#d9ffff" stroke-opacity=".16" stroke-width="3"/>
-              <text x="188" y="430" fill="#a2ece0" font-size="17" text-anchor="middle" font-weight="800">π × 10² × 30 = 9 000</text>
+
+            <g id="tank" filter="url(#shadow)">
+              <path class="tank-body" d="M90 119 Q188 83 286 119 L286 360 Q188 397 90 360Z" />
+              <ellipse class="tank-rim" cx="188" cy="119" rx="98" ry="36" />
+              <path id="tankWaterBody" class="water-body" d="M94 144 Q188 110 282 144 L282 356 Q188 388 94 356Z" />
+              <ellipse id="tankWaterTop" class="water-top" cx="188" cy="144" rx="94" ry="33" />
+              <path d="M123 180 L123 334 M253 180 L253 334" stroke="#d9ffff" stroke-opacity=".14" stroke-width="3" />
+              <text x="188" y="431" text-anchor="middle" class="svg-water-text">π × 10² × 30</text>
+              <text x="188" y="455" text-anchor="middle" class="svg-text">半径 10 · 高 30</text>
             </g>
-            <g id="cupsGroup" filter="url(#softShadow)">
-              <g id="cup1" transform="translate(367 181)">
-                <path d="M0 18 Q37 3 74 18 L68 143 Q37 161 6 143Z" fill="#5c4cae" stroke="#c8bfff" stroke-width="2.5"/>
-                <ellipse cx="37" cy="18" rx="37" ry="15" fill="#8072d6" stroke="#c8bfff" stroke-width="2.5"/>
-                <path d="M4 63 Q37 49 70 63 L67 143 Q37 157 7 143Z" fill="var(--yellow)" opacity=".85" class="cupWater"/>
-                <ellipse cx="37" cy="63" rx="33" ry="13" fill="#ffe49b" opacity=".9" class="cupWaterTop"/>
-                <text x="37" y="190" fill="#f5c84c" font-size="14" text-anchor="middle" font-weight="800">r=3, h=5</text>
+
+            <g id="cups" filter="url(#shadow)">
+              <g transform="translate(370 171)">
+                <path class="cup-body" d="M0 18 Q37 3 74 18 L68 144 Q37 161 6 144Z" />
+                <ellipse class="cup-rim" cx="37" cy="18" rx="37" ry="15" />
+                <path class="cup-water" d="M4 65 Q37 51 70 65 L67 144 Q37 157 7 144Z" />
+                <ellipse class="cup-water-top" cx="37" cy="65" rx="33" ry="13" />
+                <text x="37" y="190" text-anchor="middle" class="svg-yellow-text">r=3 · h=5</text>
               </g>
-              <g id="cup2" transform="translate(466 208) scale(.84)">
-                <path d="M0 18 Q37 3 74 18 L68 143 Q37 161 6 143Z" fill="#5c4cae" stroke="#c8bfff" stroke-width="2.5"/>
-                <ellipse cx="37" cy="18" rx="37" ry="15" fill="#8072d6" stroke="#c8bfff" stroke-width="2.5"/>
-                <path d="M4 63 Q37 49 70 63 L67 143 Q37 157 7 143Z" fill="#f5c84c" opacity=".85" class="cupWater"/>
-                <ellipse cx="37" cy="63" rx="33" ry="13" fill="#ffe49b" opacity=".9" class="cupWaterTop"/>
-                <text x="37" y="190" fill="#f5c84c" font-size="14" text-anchor="middle" font-weight="800">r=3, h=5</text>
+              <g transform="translate(484 203) scale(.86)">
+                <path class="cup-body" d="M0 18 Q37 3 74 18 L68 144 Q37 161 6 144Z" />
+                <ellipse class="cup-rim" cx="37" cy="18" rx="37" ry="15" />
+                <path class="cup-water" d="M4 65 Q37 51 70 65 L67 144 Q37 157 7 144Z" />
+                <ellipse class="cup-water-top" cx="37" cy="65" rx="33" ry="13" />
+                <text x="37" y="190" text-anchor="middle" class="svg-yellow-text">r=3 · h=5</text>
               </g>
-              <path id="pourArrow" d="M306 155 C345 104 385 107 415 145" fill="none" stroke="#f5c84c" stroke-width="4" stroke-dasharray="7 8" opacity="0"/>
-              <path id="pourArrowHead" d="M407 131 L423 146 L402 150" fill="none" stroke="#f5c84c" stroke-width="4" opacity="0"/>
-              <text id="cupVolumeText" x="430" y="430" fill="#f5c84c" font-size="16" text-anchor="middle" font-weight="800" opacity="0">2 × π × 3² × 5 = 270</text>
+              <path class="stream cup-stream" d="M292 158 C330 104 363 108 401 156" />
+              <path class="stream cup-stream" d="M293 158 C366 89 454 122 515 205" opacity=".6" />
+              <circle class="drop cup-drop" cx="299" cy="159" r="5" />
+              <circle class="drop cup-drop" cx="321" cy="131" r="4" style="animation-delay:.35s" />
+              <circle class="drop cup-drop" cx="344" cy="119" r="4" style="animation-delay:.7s" />
+              <text x="454" y="431" text-anchor="middle" class="svg-yellow-text">2 × π × 3² × 5</text>
+              <text x="454" y="455" text-anchor="middle" class="svg-text">两个杯子的体积</text>
             </g>
-            <g id="containerGroup" filter="url(#softShadow)">
-              <path d="M639 173 L830 173 L870 204 L680 204Z" fill="#443a85" stroke="#c8bfff" stroke-width="3"/>
-              <path d="M680 204 L870 204 L870 354 L680 354Z" fill="#2d2a5c" stroke="#c8bfff" stroke-width="3"/>
-              <path d="M639 173 L680 204 L680 354 L639 323Z" fill="#50489b" stroke="#c8bfff" stroke-width="3"/>
-              <path id="containerWater" d="M684 285 L866 285 L866 351 L684 351Z" fill="url(#purpleGradient)" opacity=".9"/>
-              <path id="containerWaterTop" d="M684 285 L866 285 L829 312 L647 312Z" fill="#c8bfff" opacity=".8"/>
-              <text x="755" y="405" fill="#c8bfff" font-size="15" text-anchor="middle" font-weight="800">50 × 20 × ?</text>
+
+            <g id="box" filter="url(#shadow)">
+              <path class="box-top" d="M635 174 L830 174 L870 205 L675 205Z" />
+              <path class="box-front" d="M675 205 L870 205 L870 358 L675 358Z" />
+              <path class="box-side" d="M635 174 L675 205 L675 358 L635 326Z" />
+              <path id="boxWaterFront" class="box-water-front" d="M679 340 L866 340 L866 354 L679 354Z" />
+              <path id="boxWaterTop" class="box-water-top" d="M679 340 L866 340 L829 366 L642 366Z" />
+              <path class="stream box-stream" d="M292 157 C420 95 556 130 675 278" />
+              <circle class="drop box-drop" cx="300" cy="159" r="5" />
+              <circle class="drop box-drop" cx="336" cy="143" r="4" style="animation-delay:.33s" />
+              <circle class="drop box-drop" cx="380" cy="132" r="4" style="animation-delay:.66s" />
+              <text x="754" y="405" text-anchor="middle" class="svg-purple-text">50 × 20 × ?</text>
+              <text x="754" y="430" text-anchor="middle" class="svg-text">长 · 宽 · 高</text>
             </g>
-            <g id="dimensionLabels" opacity="0">
-              <path d="M91 98 L91 82 M285 98 L285 82 M91 87 L285 87" fill="none" stroke="#a2ece0" stroke-width="2"/>
-              <text x="188" y="80" fill="#a2ece0" font-size="14" text-anchor="middle">直径 20</text>
-              <path d="M301 115 L319 115 M301 357 L319 357 M311 115 L311 357" fill="none" stroke="#a2ece0" stroke-width="2"/>
-              <text x="330" y="244" fill="#a2ece0" font-size="14" transform="rotate(90 330 244)" text-anchor="middle">高 30</text>
-              <text x="754" y="330" fill="#c8bfff" font-size="14" text-anchor="middle">底面积 = 50 × 20</text>
+
+            <g id="measurements" opacity="0">
+              <path d="M90 91 L90 73 M286 91 L286 73 M90 78 L286 78" fill="none" stroke="#a2ece0" stroke-width="2" />
+              <text x="188" y="69" text-anchor="middle" class="svg-water-text" style="font-size:13px">直径 20</text>
+              <path d="M300 119 L319 119 M300 360 L319 360 M311 119 L311 360" fill="none" stroke="#a2ece0" stroke-width="2" />
+              <text x="329" y="244" text-anchor="middle" class="svg-water-text" style="font-size:13px" transform="rotate(90 329 244)">高 30</text>
+              <text x="755" y="333" text-anchor="middle" class="svg-purple-text" style="font-size:13px">底面积 = 50 × 20</text>
             </g>
           </svg>
-          <div class="stage-note" id="stageNote">每个图形不按实际比例绘制，重点看“体积怎么转移”。</div>
+          <div class="scene-label" id="sceneNote">模型不按实际比例绘制，重点观察水量的转移。</div>
         </div>
-        <div class="visual-foot">
-          <div class="legend" aria-label="图例"><span><i class="water"></i>水</span><span><i class="cup"></i>倒出的水</span><span><i class="container"></i>接水容器</span></div>
-          <div class="mini-stat"><span class="mini-stat-label">当前剩余水量</span><strong id="remainingStat">9 000 cm³</strong></div>
+
+        <div class="model-caption">
+          <div class="legend"><span><i class="water"></i>水</span><span><i class="cup"></i>杯中水</span><span><i class="box"></i>长方体中的水</span></div>
+          <div class="scene-status" id="sceneStatus" role="status" aria-live="polite">准备开始</div>
         </div>
       </section>
 
-      <aside class="card control-card" aria-label="课堂控制面板">
+      <aside class="panel lesson-panel" aria-label="计算与动画控制">
         <div>
-          <div class="eyebrow">CLASSROOM CONTROL</div>
-          <h2>让学生自己发现体积守恒</h2>
-          <p>点步骤，或直接拖动下面的滑块。</p>
+          <div class="lesson-kicker">TEXTBOOK FIGURE 2-18</div>
+          <h2 id="lessonTitle">先算一桶水的体积</h2>
+          <p class="lesson-intro" id="lessonIntro">圆柱体积 = π × 半径² × 高。先把总水量算出来。</p>
         </div>
 
-        <div class="control-section">
-          <div class="control-label"><span>倒出圆柱形杯子</span><span class="value-badge"><span id="cupCount">0</span> / 2 个</span></div>
-          <input id="cupRange" type="range" min="0" max="2" step="1" value="0" aria-label="倒出杯子的数量" />
-          <div class="range-ends"><span>还没倒</span><span>倒出 2 个</span></div>
-          <div class="button-row" style="margin-top: 12px">
-            <button class="btn ghost" id="resetBtn">↺ 重置</button>
-            <button class="btn accent" id="showAnswerBtn">显示结果</button>
+        <div class="prompt">
+          <span class="prompt-label" id="promptLabel">课堂提问</span>
+          <p id="promptText">水桶里装满水，应该先算哪个量？</p>
+        </div>
+
+        <section class="calc-card" aria-live="polite">
+          <div class="calc-card-head"><h3>计算板 · 按步骤呈现</h3><span class="pi-badge">π 取 3</span></div>
+          <div class="calc-list">
+            <div class="calc-row visible focus" data-line="0"><span class="calc-num">1</span><div class="calc-copy"><small>水桶里的水</small><span class="math">π × 10<sup>2</sup> × 30 = 9 000 cm<sup>3</sup></span><span class="calc-note">圆柱水桶的体积</span></div></div>
+            <div class="calc-row" data-line="1"><span class="calc-num">2</span><div class="calc-copy"><small>倒满 2 个圆柱形杯子</small><span class="math">2 × π × 3<sup>2</sup> × 5 = 270 cm<sup>3</sup></span><span class="calc-note">倒出的水量</span></div></div>
+            <div class="calc-row" data-line="2"><span class="calc-num">3</span><div class="calc-copy"><small>桶中剩下的水</small><span class="math">9 000 − 270 = 8 730 cm<sup>3</sup></span><span class="calc-note">总水量 − 倒出水量</span></div></div>
+            <div class="calc-row" data-line="3"><span class="calc-num">4</span><div class="calc-copy"><small>长方体容器的底面积</small><span class="math">50 × 20 = 1 000 cm<sup>2</sup></span><span class="calc-note">长方体体积 = 底面积 × 高</span></div></div>
+            <div class="calc-row" data-line="4"><span class="calc-num">5</span><div class="calc-copy"><small>容器内水的高度</small><span class="math">8 730 ÷ 1 000 = 8.73 cm</span><span class="calc-note">剩余水量 ÷ 容器底面积</span></div></div>
           </div>
+        </section>
+
+        <div class="answer" id="answerBox"><small>容器厚度不计</small><strong>答：水的高度约为 8.73 cm</strong></div>
+
+        <div class="controls">
+          <button class="btn ghost" id="backBtn" aria-label="上一步">上一步</button>
+          <span class="progress-text" id="progressText">第 1 步 / 共 5 步</span>
+          <button class="btn primary" id="nextBtn">开始倒满 2 个杯子</button>
+          <button class="btn accent" id="playBtn">播放完整过程</button>
+          <button class="btn ghost" id="resetBtn">重新开始</button>
         </div>
 
-        <div class="control-section question">
-          <strong id="questionTag">课堂提问</strong>
-          <p id="questionText">水桶里的水，应该先算什么？</p>
-        </div>
-
-        <div class="control-section formula" aria-live="polite">
-          <div class="formula-line"><span>水桶体积</span><code>π × 10² × 30</code><span class="formula-result">= 9 000</span></div>
-          <div class="formula-line"><span>倒出水量</span><code id="deductFormula">0 × 270</code><span class="formula-result" id="deductResult">= 0</span></div>
-          <div class="formula-line final"><span>剩余水量</span><code id="restFormula">9 000 − 0</code><span class="formula-result" id="restResult">= 9 000</span></div>
-          <div class="formula-line"><span>容器底面积</span><code>50 × 20</code><span class="formula-result">= 1 000</span></div>
-          <div class="formula-line final"><span>水的高度</span><code id="heightFormula">9 000 ÷ 1 000</code><span class="formula-result" id="heightResult">= 9 cm</span></div>
-        </div>
-
-        <div class="answer" id="answerBox"><small>π 取 3，容器厚度不计</small><strong>答：水的高度约为 8.73 cm</strong></div>
-        <div class="teacher-tip"><b>上课提示：</b><span id="teacherTip">先让学生说出圆柱体积公式，再点“倒出 2 个”。</span></div>
+        <div class="teacher-tip"><b>讲解提示：</b><span id="teacherTip">先让学生说出“圆柱体积 = π × 半径² × 高”，再点击开始倒水。</span></div>
       </aside>
     </section>
 
-    <section class="below">
-      <div class="card info-card"><h2>这道题的关键</h2><div class="flow"><b>总水量</b><i>−</i><b>倒出水量</b><i>=</i><b>剩余水量</b><i>÷</i><b>底面积</b><i>=</i><b>水高</b></div></div>
-      <div class="card info-card"><h2>课堂快捷键</h2><div class="shortcuts"><span class="shortcut"><kbd>←</kbd> <kbd>→</kbd> 切换步骤</span><span class="shortcut"><kbd>空格</kbd> 显示 / 隐藏答案</span><span class="shortcut">滑块也可触控</span></div></div>
+    <section class="panel flow-card">
+      <h2>这道题的思路</h2>
+      <div class="flow"><b>先算总水量</b><i>→</i><b>减去倒出水量</b><i>→</i><b>得到剩余水量</b><i>→</i><b>除以长方体底面积</b><i>→</i><b>得到水高</b></div>
     </section>
   </main>
 
   <script>
     (() => {
       const steps = [
-        { title: '① 一桶水有多少？', description: '先把圆柱水桶看成一个整体，量出它的体积。', question: '水桶里的水，应该先算什么？', tip: '先让学生说出圆柱体积公式，再点“倒出 2 个”。' },
-        { title: '② 倒出 2 个杯子', description: '每个杯子也是圆柱，倒出的水量要从总水量中减掉。', question: '一个杯子的体积是多少？两个呢？', tip: '把“2 × π × 3² × 5”读成：2 个杯子的体积。' },
-        { title: '③ 剩余水量是多少？', description: '体积单位统一后，用总水量减去倒出的水量。', question: '为什么这里要用减法？', tip: '提醒学生：水被倒走了，水桶里剩下的体积变小。' },
-        { title: '④ 倒入长方体容器', description: '剩余水量不变，容器底面积变了，用体积 ÷ 底面积求水高。', question: '知道体积和底面积，怎样求高？', tip: '长方体体积 = 底面积 × 高，所以高 = 体积 ÷ 底面积。' }
+        { title: '先算一桶水的体积', intro: '圆柱体积 = π × 半径² × 高。先把总水量算出来。', prompt: '水桶里装满水，应该先算哪个量？', status: '准备开始', note: '模型不按实际比例绘制，重点观察水量的转移。', tip: '先让学生说出“圆柱体积 = π × 半径² × 高”，再点击开始倒水。' },
+        { title: '倒满 2 个圆柱形杯子', intro: '杯子也是圆柱。点击后观察水从水桶流入两个杯子。', prompt: '一个杯子的体积怎么算？两个杯子呢？', status: '正在倒满两个杯子', note: '黄色水流表示倒入杯子的水。', tip: '倒水动画结束后，引导学生读出：2 × π × 3² × 5。' },
+        { title: '求水桶中剩下的水', intro: '倒出一部分后，剩余水量 = 总水量 − 倒出水量。', prompt: '为什么这里要用减法？', status: '两个杯子已倒满', note: '水量从水桶转移到杯子，总量没有凭空增加。', tip: '让学生先说“9 000 − 270”，再显示计算结果 8 730 cm³。' },
+        { title: '把剩余的水倒入长方体', intro: '点击后观察剩余的水进入长方体容器，水面逐渐升高。', prompt: '剩余的水最后倒入哪个容器？', status: '剩余水已倒入容器', note: '蓝绿色水流表示剩余水量进入长方体容器。', tip: '提醒学生：水的体积没有变，只是容器的形状变了。' },
+        { title: '用体积 ÷ 底面积求水高', intro: '长方体体积 = 底面积 × 高，所以水高 = 体积 ÷ 底面积。', prompt: '知道体积和底面积后，怎样求高？', status: '计算完成', note: '最后一步是 8 730 ÷ 1 000。', tip: '请学生完整读一遍算式，并说出单位：水的高度约 8.73 cm。' }
       ];
-      const state = { step: 0, cups: 0, answer: false };
+      const state = { step: 0, animating: false };
       const $ = (id) => document.getElementById(id);
-      const tankWater = $('tankWater');
-      const tankWaterTop = $('tankWaterTop');
-      const cupWater = [...document.querySelectorAll('.cupWater')];
-      const cupWaterTop = [...document.querySelectorAll('.cupWaterTop')];
-      const containerWater = $('containerWater');
-      const containerWaterTop = $('containerWaterTop');
-      const stepsButtons = [...document.querySelectorAll('.progress button')];
+      const scene = $('scene');
+      const railButtons = [...document.querySelectorAll('.step-rail button')];
+      const calcRows = [...document.querySelectorAll('.calc-row')];
+      let animationTimer = null;
+      let autoToken = 0;
 
-      function setAttr(el, name, value) { el.setAttribute(name, String(value)); }
+      function setPath(id, d) { $(id).setAttribute('d', d); }
+      function setAttr(id, name, value) { $(id).setAttribute(name, String(value)); }
 
-      function render() {
-        const deducted = state.cups * 270;
-        const remaining = 9000 - deducted;
-        const height = remaining / 1000;
-        const step = steps[state.step];
-        $('stageTitle').textContent = step.title;
-        $('stageDescription').textContent = step.description;
-        $('questionText').textContent = step.question;
-        $('teacherTip').textContent = step.tip;
-        $('cupCount').textContent = state.cups;
-        $('deductFormula').textContent = state.cups + ' × 270';
-        $('deductResult').textContent = '= ' + deducted.toLocaleString('en-US');
-        $('restFormula').textContent = '9 000 − ' + deducted.toLocaleString('en-US');
-        $('restResult').textContent = '= ' + remaining.toLocaleString('en-US');
-        $('heightFormula').textContent = remaining.toLocaleString('en-US') + ' ÷ 1 000';
-        $('heightResult').textContent = '= ' + height + ' cm';
-        $('remainingStat').textContent = remaining.toLocaleString('en-US') + ' cm³';
-        $('cupRange').value = state.cups;
-        $('answerBox').classList.toggle('visible', state.answer);
-        stepsButtons.forEach((button, i) => button.classList.toggle('active', i === state.step));
-
-        // 水桶的水位随倒出杯数变化；图形保留一段可辨认的水面。
-        const tankY = 151 + state.cups * 26;
-        setAttr(tankWater, 'd', 'M91 ' + tankY + ' Q188 ' + (tankY - 38) + ' 285 ' + tankY + ' L285 353 Q188 390 91 353Z');
-        setAttr(tankWaterTop, 'cy', tankY);
-        setAttr(tankWaterTop, 'opacity', state.cups === 2 ? .76 : .88);
-
-        cupWater.forEach((el, i) => el.setAttribute('opacity', i < state.cups ? '.88' : '.12'));
-        cupWaterTop.forEach((el, i) => el.setAttribute('opacity', i < state.cups ? '.9' : '.12'));
-        $('pourArrow').setAttribute('opacity', state.cups > 0 ? '.9' : '0');
-        $('pourArrowHead').setAttribute('opacity', state.cups > 0 ? '.9' : '0');
-        $('cupVolumeText').setAttribute('opacity', state.cups > 0 ? '1' : '0');
-
-        const containerLevel = 350 - (state.cups === 2 ? 78 : state.cups === 1 ? 43 : 0);
-        setAttr(containerWater, 'd', 'M684 ' + containerLevel + ' L866 ' + containerLevel + ' L866 351 L684 351Z');
-        setAttr(containerWaterTop, 'd', 'M684 ' + containerLevel + ' L866 ' + containerLevel + ' L829 ' + (containerLevel + 27) + ' L647 ' + (containerLevel + 27) + 'Z');
-        $('dimensionLabels').setAttribute('opacity', state.step >= 2 ? '1' : '0');
-        $('questionTag').textContent = state.step === 3 ? '最后一步' : '课堂提问';
+      function applyState() {
+        const data = steps[state.step];
+        const tankTop = state.step === 0 ? 144 : 169;
+        const tankWaterD = 'M94 ' + tankTop + ' Q188 ' + (tankTop - 34) + ' 282 ' + tankTop + ' L282 356 Q188 388 94 356Z';
+        setPath('tankWaterBody', tankWaterD);
+        setAttr('tankWaterTop', 'cy', tankTop);
+        const cupsFull = state.step >= 1;
+        document.querySelectorAll('.cup-water, .cup-water-top').forEach((el) => { el.style.opacity = cupsFull ? '1' : '0'; });
+        const boxFull = state.step >= 3;
+        const boxY = boxFull ? 270 : 340;
+        setPath('boxWaterFront', 'M679 ' + boxY + ' L866 ' + boxY + ' L866 354 L679 354Z');
+        setPath('boxWaterTop', 'M679 ' + boxY + ' L866 ' + boxY + ' L829 ' + (boxY + 26) + ' L642 ' + (boxY + 26) + 'Z');
+        $('boxWaterFront').style.opacity = boxFull ? '1' : '0';
+        $('boxWaterTop').style.opacity = boxFull ? '1' : '0';
+        $('measurements').setAttribute('opacity', state.step >= 2 ? '1' : '0');
+        $('sceneTitle').textContent = (state.step + 1) + ' ' + data.title;
+        $('lessonTitle').textContent = data.title;
+        $('lessonIntro').textContent = data.intro;
+        $('promptText').textContent = data.prompt;
+        $('sceneStatus').textContent = state.animating ? (state.step === 1 ? '动画：水流向杯子' : '动画：水流向容器') : data.status;
+        $('sceneNote').textContent = data.note;
+        $('teacherTip').textContent = data.tip;
+        $('progressText').textContent = '第 ' + (state.step + 1) + ' 步 / 共 5 步';
+        $('answerBox').classList.toggle('visible', state.step >= 4);
+        calcRows.forEach((row, i) => {
+          row.classList.toggle('visible', i <= state.step);
+          row.classList.toggle('focus', i === state.step);
+        });
+        railButtons.forEach((button, i) => {
+          button.classList.toggle('active', i === state.step);
+          button.classList.toggle('done', i < state.step);
+        });
+        $('backBtn').disabled = state.animating || state.step === 0;
+        $('resetBtn').disabled = state.animating;
+        $('playBtn').disabled = state.animating;
+        if (state.animating) {
+          $('nextBtn').disabled = true;
+          $('nextBtn').textContent = '动画播放中…';
+        } else {
+          $('nextBtn').disabled = false;
+          const nextText = ['开始倒满 2 个杯子', '显示剩余水量', '倒入长方体容器', '显示最后一步', '重播完整过程'];
+          $('nextBtn').textContent = nextText[state.step];
+        }
       }
 
-      function setStep(step) {
-        state.step = Math.max(0, Math.min(3, step));
-        if (state.step === 1 || state.step === 2) state.cups = 2;
-        if (state.step === 3) state.cups = 2;
-        render();
+      function finishAnimation(type) {
+        if (animationTimer) clearTimeout(animationTimer);
+        animationTimer = setTimeout(() => {
+          state.animating = false;
+          scene.classList.remove(type === 'cups' ? 'cup-pouring' : 'box-pouring');
+          applyState();
+        }, type === 'cups' ? 2750 : 3250);
       }
 
-      stepsButtons.forEach((button) => button.addEventListener('click', () => setStep(Number(button.dataset.step))));
-      $('cupRange').addEventListener('input', (event) => { state.cups = Number(event.target.value); state.step = state.cups === 0 ? 0 : state.cups === 1 ? 1 : 2; state.answer = false; render(); });
-      $('resetBtn').addEventListener('click', () => { state.cups = 0; state.step = 0; state.answer = false; render(); });
-      $('showAnswerBtn').addEventListener('click', () => { state.answer = !state.answer; if (state.answer) { state.cups = 2; state.step = 3; } render(); });
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowRight') setStep(state.step + 1);
-        if (event.key === 'ArrowLeft') setStep(state.step - 1);
-        if (event.code === 'Space' && event.target.tagName !== 'INPUT') { event.preventDefault(); state.answer = !state.answer; render(); }
+      function startAnimation(type) {
+        if (state.animating) return;
+        autoToken += 1;
+        state.step = type === 'cups' ? 1 : 3;
+        state.animating = true;
+        scene.classList.remove('cup-pouring', 'box-pouring');
+        scene.classList.add(type === 'cups' ? 'cup-pouring' : 'box-pouring');
+        applyState();
+        finishAnimation(type);
+      }
+
+      function goToStep(step) {
+        if (state.animating) return;
+        autoToken += 1;
+        const target = Math.max(0, Math.min(4, step));
+        if (target === 1 && state.step === 0) { startAnimation('cups'); return; }
+        if (target === 3 && state.step <= 2) { startAnimation('box'); return; }
+        state.step = target;
+        scene.classList.remove('cup-pouring', 'box-pouring');
+        applyState();
+      }
+
+      function reset() {
+        autoToken += 1;
+        if (animationTimer) clearTimeout(animationTimer);
+        animationTimer = null;
+        state.animating = false;
+        state.step = 0;
+        scene.classList.remove('cup-pouring', 'box-pouring');
+        applyState();
+      }
+
+      async function wait(ms, token) {
+        await new Promise((resolve) => setTimeout(resolve, ms));
+        return token === autoToken;
+      }
+
+      async function playAll() {
+        if (state.animating) return;
+        reset();
+        const token = autoToken;
+        await wait(450, token);
+        if (token !== autoToken) return;
+        startAnimation('cups');
+        await wait(3000, token);
+        if (token !== autoToken) return;
+        goToStep(2);
+        await wait(1700, token);
+        if (token !== autoToken) return;
+        startAnimation('box');
+        await wait(3550, token);
+        if (token !== autoToken) return;
+        goToStep(4);
+      }
+
+      railButtons.forEach((button) => button.addEventListener('click', () => goToStep(Number(button.dataset.step))));
+      $('backBtn').addEventListener('click', () => goToStep(state.step - 1));
+      $('nextBtn').addEventListener('click', () => {
+        if (state.step === 0) startAnimation('cups');
+        else if (state.step === 1) goToStep(2);
+        else if (state.step === 2) startAnimation('box');
+        else if (state.step === 3) goToStep(4);
+        else playAll();
       });
-      render();
+      $('playBtn').addEventListener('click', playAll);
+      $('resetBtn').addEventListener('click', reset);
+      document.addEventListener('keydown', (event) => {
+        if (event.target.tagName === 'BUTTON') return;
+        if (event.key === 'ArrowRight') goToStep(state.step + 1);
+        if (event.key === 'ArrowLeft') goToStep(state.step - 1);
+        if (event.code === 'Space') { event.preventDefault(); $('nextBtn').click(); }
+      });
+      applyState();
     })();
   </script>
 </body>
